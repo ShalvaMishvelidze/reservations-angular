@@ -6,6 +6,11 @@ import { Reservation } from '../models/reservation';
 })
 export class ReservationService {
   private reservations: Reservation[] = [];
+  constructor() {
+    this.reservations = JSON.parse(
+      localStorage.getItem('reservations') || '[]'
+    );
+  }
   getReservations(): Reservation[] {
     return this.reservations;
   }
@@ -14,12 +19,14 @@ export class ReservationService {
   }
   addReservation(reservation: Reservation): void {
     this.reservations.push(reservation);
+    localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
   deleteReservation(id: string): void {
     const index = this.reservations.findIndex((res) => res.id === id);
     if (index !== -1) {
       this.reservations.splice(index, 1);
     }
+    localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
   updateReservation(updatedReservation: Reservation): void {
     const index = this.reservations.findIndex(
@@ -28,5 +35,6 @@ export class ReservationService {
     if (index !== -1) {
       this.reservations[index] = updatedReservation;
     }
+    localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
 }
