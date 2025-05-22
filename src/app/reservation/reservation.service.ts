@@ -18,6 +18,7 @@ export class ReservationService {
     return this.reservations.find((reservation) => reservation.id === id);
   }
   addReservation(reservation: Reservation): void {
+    reservation.id = Date.now().toString();
     this.reservations.push(reservation);
     localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
@@ -28,12 +29,10 @@ export class ReservationService {
     }
     localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
-  updateReservation(updatedReservation: Reservation): void {
-    const index = this.reservations.findIndex(
-      (res) => res.id === updatedReservation.id
-    );
+  updateReservation(id: string, updatedReservation: Reservation): void {
+    const index = this.reservations.findIndex((res) => res.id === id);
     if (index !== -1) {
-      this.reservations[index] = updatedReservation;
+      this.reservations[index] = { ...updatedReservation, id };
     }
     localStorage.setItem('reservations', JSON.stringify(this.reservations));
   }
