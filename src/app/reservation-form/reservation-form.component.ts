@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ReservationService } from '../reservation/reservation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-form',
@@ -16,7 +17,8 @@ export class ReservationFormComponent implements OnInit {
   reservationForm: FormGroup = new FormGroup({});
   constructor(
     private formBuilder: FormBuilder,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.reservationForm = this.formBuilder.group({
@@ -30,6 +32,7 @@ export class ReservationFormComponent implements OnInit {
   onSubmit() {
     if (this.reservationForm.valid) {
       this.reservationService.addReservation(this.reservationForm.value);
+      this.router.navigate(['/list']);
     } else {
       console.error('Form is invalid');
     }
