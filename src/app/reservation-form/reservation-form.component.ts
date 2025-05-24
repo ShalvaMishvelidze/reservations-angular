@@ -34,7 +34,15 @@ export class ReservationFormComponent implements OnInit {
 
     if (id) {
       this.reservationService.getReservation(id).subscribe((res) => {
-        this.reservationForm.patchValue(res);
+        this.reservationForm.patchValue({
+          ...res,
+          checkInDate: res.checkInDate
+            ? new Date(res.checkInDate).toISOString().substring(0, 10)
+            : '',
+          checkOutDate: res.checkOutDate
+            ? new Date(res.checkOutDate).toISOString().substring(0, 10)
+            : '',
+        });
       });
     }
   }
